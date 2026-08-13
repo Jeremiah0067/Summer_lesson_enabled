@@ -13,7 +13,6 @@ const exportCsvBtn = document.getElementById("exportCsvBtn");
 
 const searchInput = document.getElementById("searchInput");
 const gradeFilter = document.getElementById("gradeFilter");
-const curriculumFilter = document.getElementById("curriculumFilter");
 const classTimeFilter = document.getElementById("classTimeFilter");
 const applyFiltersBtn = document.getElementById("applyFiltersBtn");
 const clearFiltersBtn = document.getElementById("clearFiltersBtn");
@@ -26,14 +25,11 @@ const COLUMNS = [
   { key: "phone", label: "Phone" },
   { key: "email", label: "Email" },
   { key: "country", label: "Country" },
-  { key: "state", label: "State" },
   { key: "num_students", label: "# Students" },
   { key: "student_names", label: "Student Name(s)" },
   { key: "grade", label: "Grade" },
   { key: "subjects", label: "Subjects" },
-  { key: "curriculum", label: "Curriculum" },
   { key: "class_time", label: "Class Time" },
-  { key: "source", label: "Source" },
 ];
 
 // ---------- AUTH ----------
@@ -95,12 +91,10 @@ async function loadData() {
   let query = supabaseClient.from("registrations").select("*").order("created_at", { ascending: false });
 
   const grade = gradeFilter.value;
-  const curriculum = curriculumFilter.value;
   const classTime = classTimeFilter.value;
   const search = searchInput.value.trim();
 
   if (grade) query = query.ilike("grade", `%${grade}%`);
-  if (curriculum) query = query.eq("curriculum", curriculum);
   if (classTime) query = query.ilike("class_time", `%${classTime}%`);
   if (search) query = query.or(`full_name.ilike.%${search}%,student_names.ilike.%${search}%`);
 
@@ -153,7 +147,6 @@ searchInput.addEventListener("keydown", (e) => {
 clearFiltersBtn.addEventListener("click", () => {
   searchInput.value = "";
   gradeFilter.value = "";
-  curriculumFilter.value = "";
   classTimeFilter.value = "";
   loadData();
 });
