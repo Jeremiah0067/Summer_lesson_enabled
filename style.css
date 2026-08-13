@@ -163,6 +163,31 @@ input.invalid{border-color:var(--error);}
   margin-top:6px;
 }
 
+select[multiple]{
+  width:100%;
+  min-height:168px;
+  padding:6px;
+  font-size:14.5px;
+  font-family:inherit;
+  color:var(--ink);
+  background:var(--paper);
+  border:1.5px solid var(--line);
+  border-radius:var(--radius-sm);
+  outline:none;
+}
+select[multiple]:focus{
+  border-color:var(--ink);
+  background:#fff;
+}
+select[multiple] option{
+  padding:9px 10px;
+  border-radius:6px;
+}
+select[multiple] option:checked{
+  background:var(--ink);
+  color:#fff;
+}
+
 .error{
   display:block;
   font-size:12.5px;
