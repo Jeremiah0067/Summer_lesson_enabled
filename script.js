@@ -24,6 +24,10 @@ function getCheckedValues(name) {
   return Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map((i) => i.value);
 }
 
+function getSelectedOptions(selectEl) {
+  return Array.from(selectEl.selectedOptions).map((o) => o.value);
+}
+
 function validate() {
   clearErrors();
   let valid = true;
@@ -60,12 +64,6 @@ function validate() {
     valid = false;
   }
 
-  const state = form.state.value.trim();
-  if (!state) {
-    setError("state", "Please enter your state/province of residence.");
-    valid = false;
-  }
-
   const numStudents = form.numStudents.value.trim();
   if (!numStudents || Number(numStudents) < 1) {
     setError("numStudents", "Please enter how many students you're enrolling.");
@@ -78,18 +76,13 @@ function validate() {
     valid = false;
   }
 
-  if (!getCheckedValues("grade").length) {
+  if (!getSelectedOptions(form.grade).length) {
     setError("grade", "Please select at least one year/grade.");
     valid = false;
   }
 
   if (!getCheckedValues("subjects").length) {
     setError("subjects", "Please select at least one subject.");
-    valid = false;
-  }
-
-  if (!getCheckedValues("curriculum").length) {
-    setError("curriculum", "Please select a curriculum.");
     valid = false;
   }
 
@@ -137,14 +130,11 @@ form.addEventListener("submit", async (e) => {
     phone: form.phone.value.trim(),
     email: form.email.value.trim() || null,
     country: form.country.value.trim(),
-    state: form.state.value.trim(),
     num_students: Number(form.numStudents.value.trim()),
     student_names: form.studentNames.value.trim(),
-    grade: getCheckedValues("grade").join(", "),
+    grade: getSelectedOptions(form.grade).join(", "),
     subjects: getCheckedValues("subjects").join(", "),
-    curriculum: getCheckedValues("curriculum")[0] || "",
     class_time: getCheckedValues("classTime").join(", "),
-    source: getCheckedValues("source")[0] || null,
   };
 
   setLoading(true);
